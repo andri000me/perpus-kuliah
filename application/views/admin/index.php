@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-xs-9 text-right">
                   <div class="huge">
-                    <font size="18"><b><?php echo $this->M_perpus->edit_data(array('status_peminjaman'=>0),'transaksi')->num_rows(); ?></b></font>
+                    <font size="18"><b><?php echo $this->M_perpus->edit_data(array('status_peminjaman'=>'Belum Selesai'),'peminjaman')->num_rows(); ?></b></font>
                   </div>
                       <div><b>Peminjaman belum selesai</b></div>
                     </div>
@@ -86,10 +86,11 @@
                     </div>
                     <div class="col-xs-9 text-right">
                       <div class="huge">
-                        <font size="18"><b><?php echo $this->M_perpus->edit_data(array('status_peminjaman'=>1),'transaksi')->num_rows(); ?></b></font>
+                        <font size="18"><b><?php echo $this->M_perpus->edit_data(array('status_peminjaman'=>'Selesai'),'peminjaman')->num_rows(); ?></b></font>
                       </div>
                           <div><b>Peminjaman Sudah selesai</b></div>
                         </div>
+
                       </div>
                     </div>
                     <a href="<?php echo base_url().'admin/peminjaman' ?>">
@@ -168,10 +169,10 @@
                                     foreach ($transaksi as $p) {
                                       ?>
                                       <tr>
-                                        <td><?php echo date('d/m/Y',strtotime($p->tgl_pencatatan)); ?></td>
+                                        <td><?php echo date('d/m/Y',strtotime($p->tanggal_input)); ?></td>
                                         <td><?php echo date('d/m/Y',strtotime($p->tgl_pinjam)); ?></td>
                                         <td><?php echo date('d/m/Y',strtotime($p->tgl_kembali)); ?></td>
-                                        <td><?php echo "Rp. ".number_format($p->total_denda)." ,-"; ?></td>
+                                        <td><?php echo "Rp. ".number_format($p->totaldenda)." ,-"; ?></td>
                                       </tr>
                                     <?php } ?>
                                   </tbody>

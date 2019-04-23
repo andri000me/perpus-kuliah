@@ -9,17 +9,22 @@ class Admin extends CI_Controller
     //cek Login
     if($this->session->userdata('status') != "login"){
       redirect(base_url().'welcome?pesan=belumlogin');
+
     }
-  }
+    }
+
 
   function index(){
-    $data['transaksi'] = $this->db->query("select * from transaksi order by id_pinjam desc limit 10")->result();
+    $data['transaksi'] = $this->db->query("select * from peminjaman order by id_pinjam desc limit 10")->result();
     $data['anggota'] = $this->db->query("select * from anggota order by id_anggota desc limit 10")->result();
     $data['buku'] = $this->db->query("select * from buku order by id_buku desc limit 10")->result();
-
+    if($this->session->userdata('posisi')!='admin'){
+      redirect(base_url('member'));
+    }else{
     $this->load->view('admin/header');
     $this->load->view('admin/index',$data);
     $this->load->view('admin/footer');
+  }
   }
 
   function logout(){
@@ -52,7 +57,9 @@ class Admin extends CI_Controller
     }
 
     function buku(){
-      $data['buku'] = $this->M_perpus->get_data('buku')->result();
+      $this->load->model('m_perpus');
+      $data
+      ['mbuh'] = $this->m_perpus->get_data('mbuh')->result();
       $this->load->view('admin/header');
       $this->load->view('admin/buku',$data);
       $this->load->view('admin/footer');
@@ -288,7 +295,7 @@ class Admin extends CI_Controller
       }
 
       function peminjaman(){
-        $data['peminjaman'] = $this->db->query("SELECT * FROM transaksi T, buku B, anggota A WHERE T.id_buku=B.id_buku and T.id_anggota=A.id_anggota")->result();
+        $data['peminjaman'] = $this->M_perpus->get_data('peminjaman')->result();
 
         $this->load->view('admin/header');
         $this->load->view('admin/peminjaman',$data);
@@ -350,7 +357,7 @@ class Admin extends CI_Controller
 
         function transaksi_hapus($id){
           $w = array('id_pinjam' => $id);
-          $data = $this->M_perpus->edit_data($w,'transaksi')->row();
+          $data = $this->M_perpus->edit_data($w,'peminjaman')->row();
           $ww = array('id_buku' => $data->id_buku);
           $data2 = array('status_buku' => '1');
           $this->M_perpus->update_data('buku',$data2,$ww);
@@ -361,7 +368,7 @@ class Admin extends CI_Controller
         function transaksi_selesai($id){
           $data['buku'] = $this->M_perpus->get_data('buku')->result();
           $data['anggota'] = $this->M_perpus->get_data('anggota')->result();
-          $data['peminjaman'] = $this->db->query("select * from transaksi t, anggota a, buku b where t.id_buku = b.id_buku and t.id_anggota=a.id_anggota and t.id_pinjam='$id'")->result();
+          $data['peminjaman'] = $this->db->query("select * from peminjaman p, detail_pinjam d, anggota a, buku b where d.id_buku = b.id_buku and p.id_anggota=a.id_anggota and p.id_pinjam=d.id_pinjam and p.id_pinjam='$id' limit 1")->result();
 
           $this->load->view('admin/header');
           $this->load->view('admin/transaksi_selesai',$data);
@@ -380,18 +387,19 @@ class Admin extends CI_Controller
             //hitung selisih hari
             $batas_kembali = strtotime($tgl_kembali);
             $dikembalikan = strtotime($tgl_dikembalikan);
-            $selisih = abs(($batas_kembali - $dikembalikan)/(60*60*24));
+            $selisih = abs(($dikembalikan-$batas_kembali)/(60*60*24));
             $total_denda = $denda*$selisih;
+
             //update status Peminjaman
-            $data = array('status_peminjaman' => '1','total_denda' => $total_denda,'tgl_pengembalian' => $tgl_dikembalikan,'status_pengembalian' => '1');
+            $data = array('status_peminjaman' => 'Selesai','totaldenda' => $total_denda,'tgl_pengembalian' => $tgl_dikembalikan,'status_pengembalian' => 'Kembali');
             $w = array('id_pinjam' =>$id);
-            $this->M_perpus->update_data('transaksi',$data,$w);
+            $this->M_perpus->update_data('peminjaman',$data,$w);
             //update status Buku
             $data2 = array('status_buku' => '1');
             $w2 = array('id_buku' => $buku);
             $this->M_perpus->update_data('buku',$data2,$w2);
-
-            redirect(base_url().'admin/peminjaman');
+            //echo $total_denda;
+            //redirect(base_url().'admin/peminjaman');
           }else{
             $data['buku'] = $this->M_perpus->get_data('buku')->result();
             $data['anggota'] = $this->M_perpus->get_data('anggota')->result();
@@ -402,7 +410,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/footer');
           }
         }
-        
+
         function cetak_laporan_buku(){
           $data['buku'] = $this->M_perpus->get_data('buku')->result();
           $this->load->view('admin/header');
@@ -520,4 +528,5 @@ class Admin extends CI_Controller
          $this->dompdf->render();
          $this->dompdf->stream("laporan_data_transaksi.pdf", array('Attachment'=>0));
         }
+
 }
