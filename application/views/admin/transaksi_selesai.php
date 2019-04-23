@@ -17,15 +17,6 @@
       </select>
     </div>
 
-    <div class="form-group">
-      <label>Buku</label>
-      <select class="form-control" name="buku" disabled>
-        <option value="">-Pilih Buku-</option>
-        <?php foreach ($buku as $m) { ?>
-          <option <?php if($p->id_buku==$m->id_buku){echo "selected='selected'";} ?> value="<?php echo $m->id_buku; ?>"><?php echo $m->judul_buku; ?></option>
-        <?php } ?>
-      </select>
-    </div>
 
     <div class="form-group">
       <label>Tanggal Pinjam</label>

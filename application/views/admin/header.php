@@ -29,15 +29,17 @@
             <li><a href="<?php echo base_url().'admin/buku'; ?>"><span class="glyphicon glyphicon-folder-open"></span>Data Buku</a></li>
             <li><a href="<?php echo base_url().'admin/anggota'; ?>"><span class="glyphicon glyphicon-user"></span>Data Anggota</a></li>
             <li><a href="<?php echo base_url().'admin/peminjaman'; ?>"><span class="glyphicon glyphicon-sort"></span>Transaksi Peminjaman</a></li>
-            <li class="dropdown"><a href="<?php echo base_url().'#'; ?>" class="dropdown-toggle" data-toggle="dropdown" role="button"  aria-haspopup="true"   ariaexpanded="false"> <span class="glyphicon glyphicon-list-alt"></span>Laporan<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                  <li><a href="<?php echo base_url().'admin/cetak_laporan_buku' ?>">
-                    <i class="glyphicon glyphicon-lock"></i>Laporan Data Buku</a></li>
-                  <li><a href="<?php echo base_url().'admin/cetak_laporan_anggota' ?>">
-                    <i class="glyphicon glyphicon-lock"></i>Laporan Data Anggota</a></li>
-                  <li><a href="<?php echo base_url().'admin/laporan_transaksi' ?>">
-                    <i class="glyphicon glyphicon-lock"></i>Laporan Data Transaksi</a></li>
-                </ul>
+            <li class="dropdown"><a href="<?php echo base_url().'#'; ?>" class="dropdown-toggle"
+              data-toggle="dropdown" role="button" aria-haspopup="true" ariaexpanded="false">
+              <span class="glyphicon glyphicon-list-alt"></span>Laporan<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="<?php echo base_url().'admin/cetak_laporan_buku' ?>">
+                <i class="glyphicon glyphicon-lock"></i>Laporan Data Buku</a></li>
+              <li><a href="<?php echo base_url().'admin/cetak_laporan_anggota' ?>">
+                <i class="glyphicon glyphicon-lock"></i>Laporan Data Anggota</a></li>
+              <li><a href="<?php echo base_url().'admin/laporan_transaksi' ?>">
+                <i class="glyphicon glyphicon-lock"></i>Laporan Data Transaksi</a></li>
+            </ul>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

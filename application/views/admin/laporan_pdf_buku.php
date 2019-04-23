@@ -1,5 +1,5 @@
-<html>
 <!DOCTYPE html>
+<html>
 <head>
  <title></title>
 </head>
@@ -29,7 +29,7 @@
     <th>Penerbit</th>
     <th>ISBN</th>
     <th>Jumlah Buku</th>
-    <th>Lokalisasi</th>
+    <th>Lokasi</th>
    </tr>
   </thead>
   <tbody>
