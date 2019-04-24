@@ -25,11 +25,12 @@ class Peminjaman extends CI_Controller{
   			$alert=$this->session->set_flashdata('alert', 'Anda belum Login');
   			redirect(base_url());
   		}else{
+			$anggota = $this->session->userdata('id_agt');
   			$d = $this->M_perpus->find($id, 'buku');
   			$isi = array(
   				'id_pinjam' => $this->M_perpus->kode_otomatis(),
   				'id_buku' => $id,
-  				'id_anggota' => '1',
+  				'id_anggota' => $anggota,
   				'tgl_pencatatan' => date('Y-m-d'),
   				'tgl_pinjam' => '-',
   				'tgl_kembali' => '-',
@@ -38,8 +39,8 @@ class Peminjaman extends CI_Controller{
   				'total_denda' =>'0',
   				'status_peminjaman' =>'Belum Selesai',
   				'status_pengembalian' =>'Belum Kembali'
-  			);
-  			$o = $this->M_perpus->edit_data(array('id_buku'=>$id),'transaksi')->num_rows();
+			  );
+  			$o = $this->M_perpus->edit_data(array('id_buku'=>$id, 'id_anggota' => $anggota),'transaksi')->num_rows();
   			if($o>0) {
   				$this->session->set_flashdata('alert','Buku ini sudah ada dikeranjang');
   				redirect(base_url().'member');

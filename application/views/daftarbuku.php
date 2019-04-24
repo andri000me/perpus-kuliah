@@ -38,11 +38,20 @@
 							<p><?=substr($buku->judul_buku,0,30).'..'?></p>
 							<p><?=$buku->penerbit?></p>
 							<p><?=substr($buku->thn_terbit,0,4)?></p>
+							<p><?= $buku->jumlah_buku ?></p>
 							<p>
-								<?=anchor('peminjaman/tambah_pinjam/' . $buku->id_buku, ' Booking' , [
-									'class'	=> 'btn btn-primary',
-									'role'	=> 'button'
-								])?>
+
+								<?php 
+								
+								if ($buku->jumlah_buku > 0) {
+									echo anchor('peminjaman/tambah_pinjam/' . $buku->id_buku, ' Booking' , [
+										'class'	=> 'btn btn-primary',
+										'role'	=> 'button',
+									]);
+								} else {
+									echo "<button class='btn btn-primary' disabled='true'>Buku Habis</button>";
+								}
+								?>
 								<?=anchor('buku/katalog_detail/' . $buku->id_buku, ' Detail' , [
 									'class'	=> 'btn btn-warning glyphicon glyphicon-zoom-in',
 									'role'	=> 'button'
